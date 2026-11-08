@@ -343,9 +343,6 @@ document.getElementById("dearName").textContent = firstName ? "Dear " + firstNam
 function track(event, data) {
   if (!ENDPOINT || !guest.id) return Promise.resolve();
   const body = JSON.stringify({ g: guest.id, n: guest.name, event, data: data || {}, ua: navigator.userAgent.slice(0, 200) });
-  if (event !== "rsvp" && navigator.sendBeacon) {
-    try { if (navigator.sendBeacon(ENDPOINT, new Blob([body], { type: "text/plain" }))) return Promise.resolve(); } catch (e) {}
-  }
   return fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body, keepalive: true });
 }
 track("open");
